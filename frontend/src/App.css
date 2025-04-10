@@ -1,0 +1,44 @@
+/* Убираем старые стили для #root */
+#root {
+  height: 100vh; /* Занимаем всю высоту */
+  width: 100vw; /* Занимаем всю ширину */
+  display: flex; /* Используем flex для основного макета */
+  flex-direction: column; /* Элементы идут сверху вниз */
+}
+
+/* Стили для основного макета приложения */
+.app-layout {
+  display: flex;
+  flex-direction: column; /* Header сверху, app-body снизу */
+  height: 100%;
+  width: 100%;
+}
+
+/* Стили для тела приложения (сайдбар + контент) */
+.app-body {
+  display: flex;
+  flex-grow: 1; /* Занимает все доступное вертикальное пространство */
+  overflow: hidden; /* Предотвращаем двойной скролл */
+}
+
+/* Стили для основного контента */
+.app-content {
+  flex-grow: 1; /* Занимает все доступное горизонтальное пространство */
+  padding: 20px; /* Отступы для контента */
+  overflow-y: auto; /* Добавляем вертикальный скролл только для контента */
+  background-color: #fff; /* Белый фон для контента (или другой по дизайну) */
+  height: 100%; /* Занимает всю высоту родителя (app-body) */
+  box-sizing: border-box;
+}
+
+/* Убираем старые стили, которые больше не нужны */
+/*
+.app-content {
+  padding-top: 65px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+*/

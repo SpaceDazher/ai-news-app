@@ -1,0 +1,36 @@
+.dataViewerPageContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.dataViewerPageContainer h1 {
+    margin-bottom: 20px;
+}
+
+/* Можно оставить старые стили, если они используются где-то еще */
+.container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 16px;
+    height: calc(100vh - 64px);
+    padding: 16px;
+}
+
+.postsColumn {
+    border-right: 1px solid #e0e0e0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.contentColumn {
+    height: 100%;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}

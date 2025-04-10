@@ -1,0 +1,37 @@
+.userWidget {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Расстояние между элементами */
+  font-size: 0.9rem;
+  margin-left: auto; /* Прижимаем виджет вправо */
+}
+
+.userEmail {
+  color: #abb2bf; /* Светло-серый цвет для email (подберите под вашу тему) */
+  font-weight: 500;
+}
+
+.logoutButton {
+  background-color: #e06c75; /* Цвет для кнопки выхода (подберите под вашу тему) */
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 0.85rem;
+}
+
+.logoutButton:hover {
+  background-color: #be5046; /* Более темный цвет при наведении */
+}
+
+.loginLink {
+  color: #61afef; /* Цвет ссылки (подберите под вашу тему) */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.loginLink:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,81 @@
+/* src/features/manageSources/ui/SourceListItem.css */
+.source-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.source-list-item:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.source-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-grow: 1; /* Занимает доступное пространство */
+  overflow: hidden; /* Обрезает длинный контент */
+}
+
+.source-icon {
+  font-size: 1.2em;
+}
+
+.source-name {
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap; /* Предотвращает перенос */
+}
+
+.source-identifier {
+  color: #666;
+  font-size: 0.9em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Добавляет троеточие для длинных ссылок/идентификаторов */
+  max-width: 300px; /* Ограничиваем ширину, чтобы не вылезало */
+}
+
+.source-identifier a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.source-identifier a:hover {
+    text-decoration: underline;
+}
+
+
+.source-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0; /* Предотвращает сжатие кнопок */
+}
+
+.source-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1em;
+  padding: 5px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.source-actions button:hover {
+  background-color: #f0f0f0;
+}
+
+.edit-button {
+  color: #007bff; /* Синий */
+}
+
+.delete-button {
+  color: #dc3545; /* Красный */
+}

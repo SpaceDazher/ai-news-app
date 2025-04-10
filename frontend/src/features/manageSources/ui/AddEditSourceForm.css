@@ -1,0 +1,86 @@
+/* src/features/manageSources/ui/AddEditSourceForm.css */
+
+.add-edit-source-form-overlay {
+  position: fixed; /* Или absolute, если контейнер позволяет */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Поверх других элементов */
+}
+
+.add-edit-source-form-card {
+  background-color: #ffffff;
+  padding: 25px 30px;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 500px; /* Ширина формы */
+  box-sizing: border-box;
+}
+
+.add-edit-source-form-card h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+/* Используем стили из AuthFeature.css для консистентности */
+.add-edit-source-form-card .auth-form { /* Переиспользуем класс */
+  gap: 18px; /* Немного увеличим отступ */
+}
+
+.add-edit-source-form-card .form-group {
+  /* Стили уже определены */
+}
+
+.add-edit-source-form-card .form-input {
+  /* Стили уже определены */
+}
+
+.add-edit-source-form-card .form-input:focus {
+  /* Стили уже определены */
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end; /* Кнопки справа */
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.add-edit-source-form-card .submit-button {
+  /* Стили уже определены, но можно переопределить */
+  margin-top: 0; /* Убираем верхний отступ */
+}
+
+.cancel-button {
+  padding: 12px 15px;
+  background-color: #6c757d; /* Серый цвет */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+  background-color: #5a6268;
+}
+
+.form-error-message {
+    color: #dc3545;
+    font-size: 14px;
+    margin-bottom: 15px; /* Отступ снизу */
+    text-align: center;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 8px;
+    border-radius: 4px;
+}

@@ -1,0 +1,79 @@
+/* frontend/src/widgets/Sidebar/Sidebar.module.css */
+.sidebar {
+    width: 240px; /* Ширина сайдбара */
+    background-color: #f8f9fa; /* Светлый фон */
+    border-right: 1px solid #dee2e6; /* Граница справа */
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Занимает всю высоту родителя (appLayout) */
+    box-sizing: border-box;
+    transition: width 0.3s ease; /* Плавное изменение ширины (для будущего схлопывания) */
+    overflow-y: auto; /* Добавляем скролл, если контента много */
+}
+
+.nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav li {
+    margin-bottom: 5px;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #495057; /* Цвет текста */
+    border-radius: 4px;
+    margin: 0 10px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.link:hover {
+    background-color: #e9ecef; /* Фон при наведении */
+    color: #212529;
+}
+
+.link.active {
+    background-color: #dee2e6; /* Фон активной ссылки */
+    color: #000;
+    font-weight: 500;
+}
+
+.icon {
+    margin-right: 12px;
+    font-size: 1.1em; /* Размер иконки */
+    min-width: 20px; /* Минимальная ширина для выравнивания */
+    text-align: center;
+}
+
+.text {
+    white-space: nowrap; /* Предотвращаем перенос текста */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Добавляем многоточие, если текст не влезает */
+}
+
+/* Стили для возможного будущего схлопывания сайдбара */
+/*
+.sidebarCollapsed {
+    width: 60px;
+}
+
+.sidebarCollapsed .text {
+    display: none;
+}
+
+.sidebarCollapsed .link {
+    justify-content: center;
+    margin: 0 5px;
+    padding: 10px;
+}
+
+.sidebarCollapsed .icon {
+    margin-right: 0;
+}
+*/

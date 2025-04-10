@@ -1,0 +1,28 @@
+.content {
+    padding: 16px;
+    height: 100%;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.content pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: inherit;
+    margin: 0;
+}
+
+.loading,
+.empty {
+    padding: 16px;
+    text-align: center;
+    color: #666;
+}
+
+.error {
+    padding: 16px;
+    text-align: center;
+    color: #d32f2f;
+}

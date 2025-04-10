@@ -1,0 +1,23 @@
+/* frontend/src/features/dataViewer/DataViewerFeature.module.css */
+
+.dataViewerLayout {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.leftPanel {
+    width: 250px;
+    border-right: 1px solid #ccc;
+    padding: 10px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.rightPanel {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}

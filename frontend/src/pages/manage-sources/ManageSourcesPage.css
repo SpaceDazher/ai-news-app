@@ -1,0 +1,12 @@
+/* src/pages/manage-sources/ManageSourcesPage.css */
+.manage-sources-page-container {
+  padding: 20px;
+  max-width: 900px; /* Ограничим ширину для удобства */
+  margin: 0 auto; /* Центрируем */
+}
+
+.manage-sources-page-container h1 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}

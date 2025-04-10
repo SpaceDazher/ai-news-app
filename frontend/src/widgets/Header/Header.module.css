@@ -1,0 +1,35 @@
+.header {
+  background-color: #21252b; /* Темный фон для шапки (подберите под вашу тему) */
+  padding: 10px 0;
+  border-bottom: 1px solid #3e4451; /* Линия под шапкой */
+  color: #abb2bf; /* Основной цвет текста в шапке */
+  position: sticky; /* Делаем шапку "липкой" */
+  top: 0;
+  z-index: 1000; /* Чтобы шапка была поверх другого контента */
+  width: 100%;
+}
+
+.container {
+  max-width: 1400px; /* Ограничиваем ширину контента */
+  margin: 0 auto; /* Центрируем */
+  padding: 0 20px; /* Отступы по бокам */
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Распределяем элементы */
+}
+
+.logo {
+  color: #61afef; /* Цвет логотипа (подберите под вашу тему) */
+  text-decoration: none;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.logo:hover {
+  color: #528bce;
+}
+
+/* Стили для навигации, если она будет добавлена */
+.navigation {
+  /* Стили для ссылок навигации */
+}
