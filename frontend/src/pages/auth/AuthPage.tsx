@@ -88,11 +88,13 @@ const AuthPage: React.FC = () => {
     <div className="auth-page-root">
       <div id="particles-js"></div>
 
-      <div className="content-container min-h-screen flex flex-row items-center justify-center py-12 px-8 gap-12">
-        <div className="flex flex-col items-start z-10 max-w-md">
+      {/* Измененный контейнер для центрирования */}
+      <div className="content-container min-h-screen flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        {/* Блок с заголовком и темой, теперь над формой */}
+        <div className="text-center mb-10 z-10">
           <h1 className="text-4xl font-bold text-white mb-2">News AI App</h1>
           <p className="text-gray-400 mb-4">Access your dashboard</p>
-          <div className="flex items-center">
+          <div className="flex justify-center items-center">
             <span className="text-gray-400 mr-2">Theme:</span>
             <div className="theme-selector default-theme-selector" onClick={() => handleThemeChange('default')}></div>
             <div className="theme-selector theme-violet-selector" onClick={() => handleThemeChange('violet')}></div>
@@ -101,6 +103,7 @@ const AuthPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Карточка аутентификации */}
         <div className="w-full z-10" style={{ maxWidth: '460px', minHeight: '550px' }}>
           <AuthFeature />
         </div>

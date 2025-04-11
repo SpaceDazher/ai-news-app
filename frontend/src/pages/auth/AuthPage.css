@@ -52,10 +52,11 @@ body, html, #root {
   position: relative;
   z-index: 1;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  flex-direction: column; /* Изменено на column */
+  align-items: center; /* Центрирование по горизонтали */
+  justify-content: center; /* Центрирование по вертикали */
   min-height: 100%;
-  padding: 2rem 5% 2rem 2rem;
+  padding: 2rem; /* Общий padding */
 }
 
 .auth-card {
@@ -67,9 +68,13 @@ body, html, #root {
   transform-style: preserve-3d;
   perspective: 1000px;
   transition: transform 0.3s, box-shadow 0.3s;
-  width: 100%;
-  max-width: 460px;
-  min-height: 550px;
+  /* Устанавливаем фиксированные размеры */
+  width: 460px;
+  height: 560px;
+  /* max-width: 460px; */ /* Заменяем max-width на width */
+  /* min-height: 550px; */ /* Заменяем min-height на height */
+  display: flex; /* Добавляем flex для управления внутренним контентом */
+  flex-direction: column; /* Располагаем контент колонкой */
 }
 
 .auth-card:hover {
@@ -200,4 +205,90 @@ body, html, #root {
 
 .default-theme-selector {
   background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+/* Стили из прототипа */
+.news-logo {
+  font-weight: 700;
+  font-size: 1.5rem; /* 24px */
+  background: linear-gradient(to right, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem; /* 16px */
+  letter-spacing: 0.5px;
+}
+
+.input-icon-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  right: 1rem; /* 16px */
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.3); /* Соответствует placeholder */
+  pointer-events: none; /* Иконка не должна быть кликабельной по умолчанию */
+}
+
+/* Стили для иконки переключения видимости пароля */
+.password-toggle.input-icon {
+  pointer-events: auto; /* Делаем кликабельной */
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.password-toggle.input-icon:hover {
+  color: var(--primary);
+}
+
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer; /* Делаем весь label кликабельным */
+}
+
+.checkbox-container input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 1.25rem; /* 20px */
+  height: 1.25rem; /* 20px */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.25rem; /* 4px */
+  background-color: rgba(255, 255, 255, 0.05);
+  margin-right: 0.5rem; /* 8px */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s, border-color 0.3s;
+  cursor: pointer;
+  flex-shrink: 0; /* Предотвращаем сжатие чекбокса */
+}
+
+.checkbox-container input[type="checkbox"]:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Галочка внутри чекбокса */
+.checkbox-container input[type="checkbox"]:checked::after {
+  content: '';
+  display: block;
+  width: 0.375rem; /* 6px */
+  height: 0.75rem; /* 12px */
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) translateY(-1px); /* Центрируем галочку */
+}
+
+.checkbox-container input[type="checkbox"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.checkbox-container span {
+  user-select: none; /* Предотвращаем выделение текста при клике */
 }
