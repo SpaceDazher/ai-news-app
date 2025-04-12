@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useAppSelector } from '@/shared/lib/hooks/useAppSelector';
 import { selectAuthData } from '@/entities/user/model/authSlice';
+import { EnvelopeIcon } from '@/shared/icons/EnvelopeIcon';
+import { EyeIcon } from '@/shared/icons/EyeIcon';
+import { EyeSlashIcon } from '@/shared/icons/EyeSlashIcon';
+
 
 export interface LoginFormData {
   email: string;
@@ -26,15 +30,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-5">
       {/* Отображение ошибки */}
       {error && <div className="error-text mb-4">{error}</div>}
 
       {/* Поле Email */}
-      {/* Увеличиваем нижний отступ mb-5 */}
-      <div className="mb-5">
+      <div className="mb-4">
         <label htmlFor="login-email" className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-        <div className="relative input-icon-wrapper">
+        <div className="input-icon-wrapper">
           <input
             id="login-email"
             type="email"
@@ -45,16 +48,16 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             className="form-input"
             placeholder="your@email.com"
           />
-          {/* Добавляем класс ph */}
-          <i className="ph ph-envelope input-icon"></i>
+          <div style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)' }}>
+            <EnvelopeIcon />
+          </div>
         </div>
       </div>
 
       {/* Поле Пароль */}
-      {/* Увеличиваем нижний отступ mb-6 */}
       <div className="mb-6">
         <label htmlFor="login-password" className="block text-sm font-medium text-gray-300 mb-2">Пароль</label>
-        <div className="relative input-icon-wrapper">
+        <div className="input-icon-wrapper">
           <input
             id="login-password"
             type={showPassword ? 'text' : 'password'}
@@ -65,17 +68,16 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             className="form-input"
             placeholder="••••••••"
           />
-          {/* Добавляем класс password-toggle */}
-          <i
-            className={`input-icon password-toggle ph ${showPassword ? 'ph-eye-slash' : 'ph-eye'}`}
-            onClick={() => setShowPassword(!showPassword)}
-          ></i>
+          <div style={{ position: 'absolute', right: '1rem', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer' }}>
+            <div onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Чекбокс "Запомнить меня" и ссылка "Забыли пароль?" */}
-      {/* Увеличиваем нижний отступ mb-8 */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-6">
         <label className="checkbox-container">
           <input
             type="checkbox"
@@ -83,8 +85,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             onChange={(e) => setRememberMe(e.target.checked)}
             disabled={isLoading}
           />
-          {/* Добавляем ml-2 для отступа */}
-          <span className="ml-2 text-sm text-gray-300">Запомнить меня</span>
+          <span className="text-sm text-gray-300">Запомнить меня</span>
         </label>
         <a href="#" className="text-sm text-primary-light hover:text-primary transition-colors">
           Забыли пароль?
@@ -94,7 +95,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
       {/* Кнопка Войти */}
       <button
         type="submit"
-        className="w-full submit-button flex items-center justify-center"
+        className="btn btn-primary w-full flex items-center justify-center"
         disabled={isLoading}
       >
         {isLoading && ( // Показываем спиннер при загрузке

@@ -1,35 +1,87 @@
-.header {
-  background-color: #21252b; /* Темный фон для шапки (подберите под вашу тему) */
-  padding: 10px 0;
-  border-bottom: 1px solid #3e4451; /* Линия под шапкой */
-  color: #abb2bf; /* Основной цвет текста в шапке */
-  position: sticky; /* Делаем шапку "липкой" */
-  top: 0;
-  z-index: 1000; /* Чтобы шапка была поверх другого контента */
-  width: 100%;
-}
+/* Header.module.css — тёмный хедер, логотип, email, кнопка "Выйти" */
 
-.container {
-  max-width: 1400px; /* Ограничиваем ширину контента */
-  margin: 0 auto; /* Центрируем */
-  padding: 0 20px; /* Отступы по бокам */
+.app-header {
+  width: 100vw;
+  min-height: 48px;
+  background: #23272f;
+  color: #fff;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* Распределяем элементы */
+  justify-content: space-between;
+  padding: 0 32px 0 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  box-shadow: 0 2px 8px 0 rgba(44,62,80,0.08);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  height: 48px;
+  padding-left: 250px; /* ширина сайдбара */
 }
 
 .logo {
-  color: #61afef; /* Цвет логотипа (подберите под вашу тему) */
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #4f8cff;
+  letter-spacing: -1px;
+  margin-right: 18px;
   text-decoration: none;
-  font-size: 1.4rem;
-  font-weight: bold;
 }
 
-.logo:hover {
-  color: #528bce;
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
-/* Стили для навигации, если она будет добавлена */
-.navigation {
-  /* Стили для ссылок навигации */
+.user-email {
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.logout-btn {
+  background: #eb5757;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 7px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.logout-btn:hover {
+  background: #c0392b;
+}
+
+@media (max-width: 900px) {
+  .header-left {
+    padding-left: 70px;
+  }
+  .app-header {
+    padding: 0 8px 0 0;
+  }
+}
+@media (max-width: 600px) {
+  .header-left {
+    padding-left: 10px;
+  }
+  .logo {
+    font-size: 1.1rem;
+    margin-right: 8px;
+  }
+  .user-email {
+    font-size: 0.95rem;
+  }
+  .logout-btn {
+    font-size: 0.95rem;
+    padding: 6px 10px;
+  }
 }

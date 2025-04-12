@@ -2,5 +2,9 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.9"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.7",
+    "phosphor-icons": "^1.4.2"
   }
 }

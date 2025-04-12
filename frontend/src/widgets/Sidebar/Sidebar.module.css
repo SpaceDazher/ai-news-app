@@ -1,79 +1,70 @@
-/* frontend/src/widgets/Sidebar/Sidebar.module.css */
+/* Sidebar.module.css — светлый сайдбар, иконки, выделение активного */
+
 .sidebar {
-    width: 240px; /* Ширина сайдбара */
-    background-color: #f8f9fa; /* Светлый фон */
-    border-right: 1px solid #dee2e6; /* Граница справа */
-    padding: 20px 0;
-    display: flex;
-    flex-direction: column;
-    height: 100%; /* Занимает всю высоту родителя (appLayout) */
-    box-sizing: border-box;
-    transition: width 0.3s ease; /* Плавное изменение ширины (для будущего схлопывания) */
-    overflow-y: auto; /* Добавляем скролл, если контента много */
+  background: #f7f8fa;
+  min-width: 210px;
+  max-width: 240px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 0 0 0;
+  border-right: 1.5px solid #e0e0e0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10;
 }
 
-.nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 18px;
 }
 
-.nav li {
-    margin-bottom: 5px;
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 28px;
+  color: #23272f;
+  font-size: 1.08rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+  cursor: pointer;
 }
 
-.link {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    text-decoration: none;
-    color: #495057; /* Цвет текста */
-    border-radius: 4px;
-    margin: 0 10px;
-    transition: background-color 0.2s ease, color 0.2s ease;
+.sidebar-link.active,
+.sidebar-link:hover {
+  background: #e6f0ff;
+  color: #4f8cff;
 }
 
-.link:hover {
-    background-color: #e9ecef; /* Фон при наведении */
-    color: #212529;
+.sidebar-icon {
+  font-size: 1.3rem;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.link.active {
-    background-color: #dee2e6; /* Фон активной ссылки */
-    color: #000;
-    font-weight: 500;
-}
-
-.icon {
-    margin-right: 12px;
-    font-size: 1.1em; /* Размер иконки */
-    min-width: 20px; /* Минимальная ширина для выравнивания */
-    text-align: center;
-}
-
-.text {
-    white-space: nowrap; /* Предотвращаем перенос текста */
-    overflow: hidden;
-    text-overflow: ellipsis; /* Добавляем многоточие, если текст не влезает */
-}
-
-/* Стили для возможного будущего схлопывания сайдбара */
-/*
-.sidebarCollapsed {
-    width: 60px;
-}
-
-.sidebarCollapsed .text {
-    display: none;
-}
-
-.sidebarCollapsed .link {
+@media (max-width: 900px) {
+  .sidebar {
+    min-width: 60px;
+    max-width: 60px;
+    padding: 18px 0 0 0;
+  }
+  .sidebar-link {
+    padding: 10px 10px;
     justify-content: center;
-    margin: 0 5px;
-    padding: 10px;
+    font-size: 0;
+  }
+  .sidebar-link .sidebar-icon {
+    font-size: 1.2rem;
+    width: 22px;
+    height: 22px;
+  }
 }
-
-.sidebarCollapsed .icon {
-    margin-right: 0;
-}
-*/

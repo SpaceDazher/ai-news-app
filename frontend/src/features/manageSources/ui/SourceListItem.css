@@ -1,81 +1,161 @@
-/* src/features/manageSources/ui/SourceListItem.css */
+/* SourceListItem.css — карточка источника, тёмная тема, современный стиль */
+
 .source-list-item {
+  background: #23272f;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.10);
+  margin: 0 0 18px 0;
+  padding: 18px 20px 14px 20px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 15px;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  background-color: #fff;
-  transition: box-shadow 0.2s ease-in-out;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.2s;
+  list-style: none;
+  min-width: 0;
 }
 
 .source-list-item:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 24px 0 rgba(80,120,255,0.18);
 }
 
-.source-info {
+.source-card-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-grow: 1; /* Занимает доступное пространство */
-  overflow: hidden; /* Обрезает длинный контент */
+  gap: 14px;
+  margin-bottom: 6px;
 }
 
-.source-icon {
-  font-size: 1.2em;
+.source-type-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #181b22;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px 0 rgba(80,120,255,0.10);
+}
+
+.source-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status-label {
+  color: #bdbdbd;
+  font-size: 13px;
+  margin-left: 2px;
+}
+
+.source-category {
+  margin-left: auto;
+  background: #2d3140;
+  color: #8ecfff;
+  font-size: 13px;
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.source-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
 }
 
 .source-name {
-  font-weight: 500;
-  color: #333;
-  white-space: nowrap; /* Предотвращает перенос */
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 2px;
+  word-break: break-word;
 }
 
-.source-identifier {
-  color: #666;
-  font-size: 0.9em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* Добавляет троеточие для длинных ссылок/идентификаторов */
-  max-width: 300px; /* Ограничиваем ширину, чтобы не вылезало */
+.source-url a, .source-url {
+  color: #4f8cff;
+  font-size: 14px;
+  text-decoration: none;
+  word-break: break-all;
 }
+.source-url a:hover { text-decoration: underline; }
 
-.source-identifier a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.source-identifier a:hover {
-    text-decoration: underline;
-}
-
-
-.source-actions {
+.source-meta {
   display: flex;
-  gap: 8px;
-  flex-shrink: 0; /* Предотвращает сжатие кнопок */
+  gap: 18px;
+  font-size: 13px;
+  color: #bdbdbd;
+  margin-top: 2px;
+  flex-wrap: wrap;
 }
 
-.source-actions button {
-  background: none;
+.source-auth {
+  color: #ffb366;
+  font-weight: 500;
+}
+
+.source-tags {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+.source-tag {
+  background: #31344a;
+  color: #a6e3ff;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 7px;
+  font-weight: 500;
+}
+
+.source-card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.source-card-actions button {
+  background: #23272f;
   border: none;
+  border-radius: 7px;
+  padding: 6px 8px;
   cursor: pointer;
-  font-size: 1.1em;
-  padding: 5px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.source-actions button:hover {
-  background-color: #f0f0f0;
+.source-card-actions button:hover {
+  background: #2d3140;
 }
 
-.edit-button {
-  color: #007bff; /* Синий */
+.edit-button svg {
+  filter: drop-shadow(0 0 2px #4f8cff33);
+}
+.delete-button svg {
+  filter: drop-shadow(0 0 2px #eb575733);
+}
+.refresh-button svg {
+  filter: drop-shadow(0 0 2px #00b89433);
 }
 
-.delete-button {
-  color: #dc3545; /* Красный */
+@media (max-width: 700px) {
+  .source-list-item {
+    padding: 12px 8px 10px 8px;
+  }
+  .source-card-header {
+    gap: 8px;
+  }
+  .source-category {
+    font-size: 12px;
+    padding: 2px 6px;
+  }
+  .source-name {
+    font-size: 15px;
+  }
 }

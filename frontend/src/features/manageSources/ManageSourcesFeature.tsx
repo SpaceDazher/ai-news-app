@@ -67,9 +67,19 @@ export const ManageSourcesFeature: React.FC = () => {
       {isLoading && <p>Загрузка источников...</p>}
       {!isLoading && !error && (
         <SourcesList
-            sources={sources}
-            onEdit={handleEditClick}
-            onDelete={handleDeleteClick}
+          sources={sources}
+          onEdit={handleEditClick}
+          onDelete={handleDeleteClick}
+          onRefresh={async (sourceId: string) => {
+            try {
+              const res = await fetch(`/api/sources/${sourceId}/refresh`, { method: 'POST' });
+              if (!res.ok) throw new Error('Ошибка обновления источника');
+              // Можно показать уведомление или обновить только lastFetched, но проще перезагрузить список
+              dispatch(fetchSourcesThunk());
+            } catch (e) {
+              alert('Не удалось обновить источник. Проверьте соединение или попробуйте позже.');
+            }
+          }}
         />
       )}
     </div>

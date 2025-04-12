@@ -1,7 +1,13 @@
-// Типы источников (должны совпадать с backend)
-export type SourceType = 'website' | 'telegram' | 'api';
+/**
+ * Типы источников (должны совпадать с backend и документацией v0.2)
+ * 'rss' | 'website' | 'api' | 'social'
+ */
+export type SourceType = 'rss' | 'website' | 'api' | 'social';
 
-// Интерфейс для объекта источника данных (клиентская сторона)
+/**
+ * Интерфейс для объекта источника данных (клиентская сторона)
+ * Расширен по документации v0.2
+ */
 export interface ISource {
   _id: string; // MongoDB ID
   userId: string; // ID пользователя-владельца
@@ -11,6 +17,16 @@ export interface ISource {
   identifier?: string;
   createdAt: string; // Даты обычно приходят как строки ISO
   updatedAt: string;
+
+  // Новые поля для расширенного UI и API v0.2
+  status?: 'active' | 'inactive' | 'error'; // Статус источника
+  category?: string; // Категория (например, "Технологии")
+  lastFetched?: string; // Дата последнего обновления (ISO)
+  updateFrequency?: number; // Частота обновления в минутах
+  requiresAuth?: boolean; // Требуется ли авторизация
+  username?: string; // Имя пользователя для авторизации
+  password?: string; // Пароль для авторизации
+  tags?: string[]; // Теги источника
 }
 
 // Тип для данных создания/обновления источника (совпадает с API)
@@ -19,4 +35,11 @@ export interface SourceDataPayload {
   type: SourceType;
   url?: string;
   identifier?: string;
+  // Новые поля для создания/обновления
+  category?: string;
+  updateFrequency?: number;
+  requiresAuth?: boolean;
+  username?: string;
+  password?: string;
+  tags?: string[];
 }

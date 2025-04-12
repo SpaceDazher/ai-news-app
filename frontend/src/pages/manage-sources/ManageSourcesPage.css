@@ -1,12 +1,27 @@
-/* src/pages/manage-sources/ManageSourcesPage.css */
+/* ManageSourcesPage.css — белый фон, центрирование, крупный заголовок */
+
 .manage-sources-page-container {
-  padding: 20px;
-  max-width: 900px; /* Ограничим ширину для удобства */
-  margin: 0 auto; /* Центрируем */
+  min-height: 100vh;
+  background: #fff;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .manage-sources-page-container h1 {
-  margin-bottom: 20px;
+  font-size: 2.7rem;
+  font-weight: 800;
+  color: #23272f;
   text-align: center;
-  color: #333;
+  margin: 38px 0 24px 0;
+  letter-spacing: -1px;
+}
+
+@media (max-width: 700px) {
+  .manage-sources-page-container h1 {
+    font-size: 2rem;
+    margin: 22px 0 16px 0;
+  }
 }
