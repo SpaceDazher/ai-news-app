@@ -93,21 +93,37 @@
 .sources-view-toggle {
   display: flex;
   gap: 4px;
-  margin-left: 8px;
-}
-.sources-view-toggle button {
+  margin-left: auto;
   background: #23272f;
+  border-radius: 8px;
+  padding: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sources-view-toggle button {
+  background: transparent;
   color: #bdbdbd;
   border: none;
-  border-radius: 7px;
-  padding: 6px 10px;
-  font-size: 18px;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 16px;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 36px;
 }
-.sources-view-toggle button.active,
-.sources-view-toggle button:hover {
+
+.sources-view-toggle button.active {
   background: #4f8cff;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(79, 140, 255, 0.3);
+}
+
+.sources-view-toggle button:hover:not(.active) {
+  background: rgba(79, 140, 255, 0.1);
   color: #fff;
 }
 
@@ -118,11 +134,101 @@
   padding: 0;
   margin: 0;
   list-style: none;
+  transition: all 0.3s ease;
 }
+
 .sources-list.list {
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+/* Стили для элементов в режиме списка */
+.sources-list.list .source-list-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  margin: 0;
+}
+
+.sources-list.list .source-card-header {
+  flex: 0 0 auto;
+  margin-bottom: 0;
+  width: auto;
+  min-width: 200px;
+}
+
+.sources-list.list .source-card-body {
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 0;
+}
+
+.sources-list.list .source-name {
+  margin-bottom: 0;
+  min-width: 150px;
+}
+
+.sources-list.list .source-url {
+  flex: 1;
+  min-width: 200px;
+}
+
+.sources-list.list .source-card-actions {
+  margin-top: 0;
+  margin-left: auto;
+}
+
+/* Стили для элементов в режиме списка */
+.sources-list.list .source-list-item {
+  margin: 0;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 14px 20px;
+}
+
+.sources-list.list .source-grid-item {
+  width: 100%;
+}
+
+.sources-list.list .source-card-header {
+  margin-bottom: 0;
+  flex: 0 0 auto;
+  min-width: 200px;
+}
+
+.sources-list.list .source-card-body {
+  flex: 1 1 auto;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 0;
+  flex-wrap: wrap;
+}
+
+.sources-list.list .source-name {
+  margin-bottom: 0;
+  min-width: 200px;
+}
+
+.sources-list.list .source-url {
+  flex: 1 1 auto;
+  min-width: 200px;
+}
+
+.sources-list.list .source-card-actions {
+  margin-top: 0;
+  margin-left: auto;
+}
+
+.source-grid-item {
+  list-style: none;
+  height: 100%;
 }
 
 .sources-empty {
@@ -158,37 +264,61 @@
   color: #fff;
 }
 
+/* Анимации для плавного переключения режимов */
+.sources-list {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0.7; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Адаптивная верстка */
 @media (max-width: 900px) {
   .sources-list {
     grid-template-columns: 1fr 1fr;
   }
 }
+
 @media (max-width: 600px) {
   .sources-list {
     grid-template-columns: 1fr;
     gap: 10px;
   }
+  
   .sources-list-container {
     max-width: 100vw;
     padding: 0 2vw;
   }
+  
   .search-sort-row {
     flex-direction: column;
     gap: 8px;
     align-items: stretch;
   }
+  
   .tabs {
     gap: 4px;
+    overflow-x: auto;
+    padding-bottom: 5px;
   }
+  
   .tab-btn {
     padding: 7px 10px 6px 10px;
     font-size: 14px;
+    white-space: nowrap;
   }
+  
   .sources-search,
   .sources-category-filter,
   .sources-sort {
     font-size: 14px;
     padding: 6px 8px;
     width: 100%;
+  }
+  
+  .sources-view-toggle {
+    margin: 10px auto;
   }
 }

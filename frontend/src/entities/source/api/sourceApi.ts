@@ -33,3 +33,12 @@ export const deleteSource = async (sourceId: string): Promise<void> => {
   });
   if (!res.ok) throw new Error('Failed to delete source');
 };
+
+// Добавляем функцию для обновления источника вручную
+export const refreshSource = async (sourceId: string): Promise<{ success: boolean; message: string; lastFetched?: string }> => {
+  const res = await apiFetch(`/sources/${sourceId}/refresh`, {
+    method: 'POST',
+  });
+  if (!res.ok) throw new Error('Failed to refresh source');
+  return res.json();
+};

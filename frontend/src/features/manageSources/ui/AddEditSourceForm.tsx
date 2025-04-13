@@ -19,7 +19,6 @@ export const AddEditSourceForm: React.FC<AddEditSourceFormProps> = ({ source, on
   const [name, setName] = useState('');
   const [type, setType] = useState<SourceType>('website'); // Тип по умолчанию
   const [url, setUrl] = useState('');
-  const [identifier, setIdentifier] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
 
   // Предзаполнение формы при редактировании
@@ -28,13 +27,11 @@ export const AddEditSourceForm: React.FC<AddEditSourceFormProps> = ({ source, on
       setName(source.name);
       setType(source.type);
       setUrl(source.url || '');
-      setIdentifier(source.identifier || '');
     } else {
       // Сброс формы при переключении на добавление
       setName('');
       setType('website');
       setUrl('');
-      setIdentifier('');
     }
     setFormError(null); // Сбрасываем ошибку при изменении режима
   }, [source, isEditing]);
@@ -61,11 +58,6 @@ export const AddEditSourceForm: React.FC<AddEditSourceFormProps> = ({ source, on
             setFormError('Некорректный формат URL.');
             return false;
         }
-    } else if (type === 'telegram') {
-        if (!identifier.trim()) {
-            setFormError('Идентификатор обязателен для типа "Telegram".');
-            return false;
-        }
     }
     setFormError(null);
     return true;
@@ -82,7 +74,7 @@ export const AddEditSourceForm: React.FC<AddEditSourceFormProps> = ({ source, on
       name: name.trim(),
       type,
       url: (type === 'website' || type === 'api') ? url.trim() : undefined,
-      identifier: type === 'telegram' ? identifier.trim() : undefined,
+      // identifier: type === 'telegram' ? identifier.trim() : undefined,
     };
 
     try {
@@ -134,7 +126,6 @@ export const AddEditSourceForm: React.FC<AddEditSourceFormProps> = ({ source, on
               disabled={isEditing} // Запрещаем менять тип при редактировании
             >
               <option value="website">Сайт (URL)</option>
-              <option value="telegram">Telegram (@username или ссылка)</option>
               <option value="api">API (URL)</option>
             </select>
           </div>
@@ -154,20 +145,6 @@ export const AddEditSourceForm: React.FC<AddEditSourceFormProps> = ({ source, on
             </div>
           )}
 
-          {type === 'telegram' && (
-            <div className="form-group">
-              <label htmlFor="source-identifier">Идентификатор Telegram</label>
-              <input
-                type="text"
-                id="source-identifier"
-                value={identifier}
-                onChange={(e) => setIdentifier(e.target.value)}
-                required={type === 'telegram'}
-                className="form-input"
-                placeholder="@channel_name или https://t.me/channel_name"
-              />
-            </div>
-          )}
 
           <div className="form-actions">
             <button type="submit" className="submit-button">

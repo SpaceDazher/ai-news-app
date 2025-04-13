@@ -2,6 +2,12 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './Sidebar.module.css';
 
+import {
+  RssIcon,
+  WebsiteIcon,
+  ApiIcon,
+  EditIcon,
+} from '@/shared/icons/CustomIcons';
 // TODO: Заменить текстовые иконки на реальные SVG или иконки из библиотеки
 const Sidebar: React.FC = () => {
     return (
@@ -14,7 +20,7 @@ const Sidebar: React.FC = () => {
                             className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}
                             title="Основной Дашборд"
                         >
-                            <span className={styles.icon}>📊</span> {/* Иконка */}
+                            <span className={styles.icon}><WebsiteIcon size={22} /></span>
                             <span className={styles.text}>Дашборд</span>
                         </NavLink>
                     </li>
@@ -24,7 +30,7 @@ const Sidebar: React.FC = () => {
                             className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}
                             title="Управление Источниками"
                         >
-                            <span className={styles.icon}>📚</span> {/* Иконка */}
+                            <span className={styles.icon}><RssIcon size={22} /></span>
                             <span className={styles.text}>Источники</span>
                         </NavLink>
                     </li>
@@ -34,7 +40,7 @@ const Sidebar: React.FC = () => {
                             className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}
                             title="Просмотр Данных"
                         >
-                            <span className={styles.icon}>👁️</span> {/* Иконка */}
+                            <span className={styles.icon}><WebsiteIcon size={22} /></span>
                             <span className={styles.text}>Данные</span>
                         </NavLink>
                     </li>
@@ -44,7 +50,7 @@ const Sidebar: React.FC = () => {
                             className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}
                             title="Темы (Папки)"
                         >
-                            <span className={styles.icon}>📁</span> {/* Иконка */}
+                            <span className={styles.icon}><ApiIcon size={22} /></span>
                             <span className={styles.text}>Темы</span>
                         </NavLink>
                     </li>
@@ -55,7 +61,7 @@ const Sidebar: React.FC = () => {
                             className={({ isActive }) => isActive ? `${styles.link} ${styles.active}` : styles.link}
                             title="Настройка Модулей"
                         >
-                            <span className={styles.icon}>⚙️</span> {/* Иконка */}
+                            <span className={styles.icon}><EditIcon size={22} /></span>
                             <span className={styles.text}>Настройки</span>
                         </NavLink>
                     </li>

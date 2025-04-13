@@ -1,0 +1,146 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  height: 64px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 250px; /* Ширина сайдбара */
+  z-index: 50;
+  transition: left 0.3s ease;
+}
+
+.header.sidebarCollapsed {
+  left: 60px; /* Ширина свернутого сайдбара */
+}
+
+.pageTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.searchContainer {
+  position: relative;
+  width: 240px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.searchInput {
+  width: 100%;
+  padding: 8px 8px 8px 36px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #e0e0e0;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #4F8CFF;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.searchInput::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  color: #e0e0e0;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.iconButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.userInfo:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.userAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userAvatarPlaceholder {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #4F8CFF;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .header {
+    left: 0;
+    padding: 16px;
+  }
+  
+  .header.sidebarCollapsed {
+    left: 0;
+  }
+  
+  .searchContainer {
+    width: 160px;
+  }
+  
+  .userName {
+    display: none;
+  }
+}

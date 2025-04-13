@@ -2,6 +2,7 @@
 import React, { useMemo, useState } from 'react';
 import type { ISource } from '@/entities/source/model/types';
 import { SourceListItem } from './SourceListItem';
+import SourceContainer from './SourceContainer';
 import './SourcesList.css';
 
 interface SourcesListProps {
@@ -98,7 +99,7 @@ export const SourcesList: React.FC<SourcesListProps> = ({
             <button
               key={t.key}
               className={`tab-btn${tab === t.key ? ' active' : ''}`}
-              onClick={() => setTab(t.key as any)}
+              onClick={() => setTab(t.key as 'all' | 'active' | 'inactive' | 'error')}
             >
               {t.label} <span className="tab-count">{tabCounts[t.key as keyof typeof tabCounts]}</span>
             </button>
@@ -127,7 +128,7 @@ export const SourcesList: React.FC<SourcesListProps> = ({
           <select
             className="sources-sort"
             value={sort}
-            onChange={e => setSort(e.target.value as any)}
+            onChange={e => setSort(e.target.value as 'createdAt' | 'updatedAt' | 'name')}
           >
             <option value="createdAt">По дате добавления</option>
             <option value="updatedAt">По дате обновления</option>
@@ -139,13 +140,27 @@ export const SourcesList: React.FC<SourcesListProps> = ({
               onClick={() => setView('grid')}
               title="Сетка"
               aria-label="Сетка"
-            >▦</button>
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <rect x="1" y="1" width="6" height="6" rx="1" />
+                <rect x="9" y="1" width="6" height="6" rx="1" />
+                <rect x="1" y="9" width="6" height="6" rx="1" />
+                <rect x="9" y="9" width="6" height="6" rx="1" />
+              </svg>
+            </button>
             <button
               className={view === 'list' ? 'active' : ''}
               onClick={() => setView('list')}
               title="Список"
               aria-label="Список"
-            >≡</button>
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <rect x="1" y="1" width="14" height="2" rx="1" />
+                <rect x="1" y="5" width="14" height="2" rx="1" />
+                <rect x="1" y="9" width="14" height="2" rx="1" />
+                <rect x="1" y="13" width="14" height="2" rx="1" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
@@ -159,13 +174,24 @@ export const SourcesList: React.FC<SourcesListProps> = ({
       ) : (
         <ul className={`sources-list ${view}`}>
           {paged.map(source => (
-            <SourceListItem
-              key={source._id}
-              source={source}
-              onEdit={onEdit}
-              onDelete={onDelete}
-              onRefresh={onRefresh}
-            />
+            view === 'list' ? (
+              <SourceListItem
+                key={source._id}
+                source={source}
+                onEdit={onEdit}
+                onDelete={onDelete}
+                onRefresh={onRefresh}
+              />
+            ) : (
+              <li key={source._id} className="source-grid-item">
+                <SourceContainer
+                  source={source}
+                  onEdit={onEdit}
+                  onDelete={onDelete}
+                  onRefresh={onRefresh}
+                />
+              </li>
+            )
           ))}
         </ul>
       )}

@@ -19,6 +19,7 @@ export interface ISource {
   updatedAt: string;
 
   // Новые поля для расширенного UI и API v0.2
+  description?: string; // Описание источника (добавлено для v0.2)
   status?: 'active' | 'inactive' | 'error'; // Статус источника
   category?: string; // Категория (например, "Технологии")
   lastFetched?: string; // Дата последнего обновления (ISO)
@@ -27,6 +28,7 @@ export interface ISource {
   username?: string; // Имя пользователя для авторизации
   password?: string; // Пароль для авторизации
   tags?: string[]; // Теги источника
+  autoFetch?: boolean; // Автоматический сбор данных (добавлено для v0.2)
 }
 
 // Тип для данных создания/обновления источника (совпадает с API)
@@ -36,10 +38,12 @@ export interface SourceDataPayload {
   url?: string;
   identifier?: string;
   // Новые поля для создания/обновления
+  description?: string; // Описание источника (добавлено для v0.2)
   category?: string;
   updateFrequency?: number;
   requiresAuth?: boolean;
   username?: string;
   password?: string;
   tags?: string[];
+  autoFetch?: boolean; // Автоматический сбор данных (добавлено для v0.2)
 }

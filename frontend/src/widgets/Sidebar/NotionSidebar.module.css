@@ -1,0 +1,107 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 250px;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  transition: width 0.3s ease;
+  z-index: 100;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #4F8CFF;
+}
+
+.collapseButton {
+  background: none;
+  border: none;
+  color: #e0e0e0;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.collapseButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebarNav {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 8px;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 6px;
+  color: #e0e0e0;
+  text-decoration: none;
+  margin-bottom: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.navLink:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.navLink.active {
+  background-color: rgba(79, 140, 255, 0.15);
+  color: #4F8CFF;
+}
+
+.linkText {
+  margin-left: 12px;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+/* Стили для скроллбара */
+.sidebarNav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebarNav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebarNav::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.sidebarNav::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}

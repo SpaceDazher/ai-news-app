@@ -1,0 +1,151 @@
+/* SourceContainer.module.css — стили для карточки источника в режиме сетки */
+
+.sourceContainer {
+  background: #23272f;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.10);
+  padding: 18px 20px 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.2s, transform 0.2s;
+  height: 100%;
+  min-width: 0;
+}
+
+.sourceContainer:hover {
+  box-shadow: 0 4px 24px 0 rgba(80,120,255,0.18);
+  transform: translateY(-2px);
+}
+
+.sourceHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 6px;
+}
+
+.sourceTypeIcon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #181b22;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px 0 rgba(80,120,255,0.10);
+  flex-shrink: 0;
+}
+
+.sourceName {
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+  flex-grow: 1;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sourceStatus {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #bdbdbd;
+  flex-shrink: 0;
+}
+
+.sourceBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+.sourceUrl {
+  margin: 0;
+  word-break: break-all;
+  font-size: 14px;
+}
+
+.sourceUrl a {
+  color: #4f8cff;
+  text-decoration: none;
+}
+
+.sourceUrl a:hover {
+  text-decoration: underline;
+}
+
+.sourceCategory {
+  background: #2d3140;
+  color: #8ecfff;
+  font-size: 13px;
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-weight: 500;
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.sourceMeta {
+  display: flex;
+  gap: 18px;
+  font-size: 13px;
+  color: #bdbdbd;
+  margin-top: 2px;
+  flex-wrap: wrap;
+}
+
+.sourceActions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  justify-content: flex-end;
+}
+
+.actionButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.actionButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.editButton {
+  color: #4F8CFF;
+}
+
+.deleteButton {
+  color: #EB5757;
+}
+
+.refreshButton {
+  color: #00B894;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+  .sourceContainer {
+    padding: 14px 16px 12px 16px;
+  }
+  
+  .sourceName {
+    font-size: 16px;
+  }
+  
+  .sourceUrl {
+    font-size: 13px;
+  }
+}

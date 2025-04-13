@@ -8,50 +8,41 @@ import {
   RssIcon,
   WebsiteIcon,
   ApiIcon,
-  SocialIcon,
-  StatusActive,
-  StatusInactive,
-  StatusError,
-} from '@/shared/icons/SourceTypeIcons';
+  YouTubeIcon,
+  TwitterIcon,
+  TelegramIcon,
+  StatusActiveIcon,
+  StatusInactiveIcon,
+  StatusErrorIcon,
+  StatusWarningIcon,
+  EditIcon,
+  TrashIcon,
+  RefreshIcon,
+} from '@/shared/icons/CustomIcons';
 
 // SVG для кнопок
-const EditIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-    <path d="M3 17l2-2h10l2 2v-2l-2-2H5l-2 2v2z" fill="#4F8CFF"/>
-    <rect x="7" y="2" width="6" height="10" rx="2" fill="#4F8CFF"/>
-  </svg>
-);
-const DeleteIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-    <rect x="5" y="7" width="10" height="10" rx="2" fill="#EB5757"/>
-    <rect x="8" y="10" width="4" height="4" rx="1" fill="#fff"/>
-  </svg>
-);
-const RefreshIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
-    <path d="M10 3v2a5 5 0 1 1-4.546 2.914" stroke="#00B894" strokeWidth="2" strokeLinecap="round"/>
-    <polyline points="3 5 10 5 10 12" stroke="#00B894" strokeWidth="2" fill="none"/>
-  </svg>
-);
 
 // Получить SVG-иконку по типу источника
 const getTypeIcon = (type: string) => {
   switch (type) {
-    case 'rss': return <RssIcon />;
-    case 'website': return <WebsiteIcon />;
-    case 'api': return <ApiIcon />;
-    case 'social': return <SocialIcon />;
-    default: return <WebsiteIcon />;
+    case 'rss': return <RssIcon size={24} />;
+    case 'website': return <WebsiteIcon size={24} />;
+    case 'api': return <ApiIcon size={24} />;
+    case 'youtube': return <YouTubeIcon size={24} />;
+    case 'twitter': return <TwitterIcon size={24} />;
+    case 'telegram': return <TelegramIcon size={24} />;
+    default: return <WebsiteIcon size={24} />;
   }
 };
 
 // Получить SVG-статус
 const getStatusIcon = (status: string) => {
   switch (status) {
-    case 'active': return <StatusActive />;
-    case 'inactive': return <StatusInactive />;
-    case 'error': return <StatusError />;
-    default: return <StatusInactive />;
+    case 'active': return <StatusActiveIcon />;
+    case 'inactive': return <StatusInactiveIcon />;
+    case 'error': return <StatusErrorIcon />;
+    case 'warning': return <StatusWarningIcon />;
+    default: return <StatusInactiveIcon />;
   }
 };
 
@@ -149,7 +140,7 @@ export const SourceListItem: React.FC<SourceListItemProps> = ({
           aria-label="Удалить источник"
           title="Удалить"
         >
-          <DeleteIcon />
+          <TrashIcon />
         </button>
       </div>
     </li>

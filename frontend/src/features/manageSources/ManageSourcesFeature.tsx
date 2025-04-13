@@ -1,49 +1,46 @@
 // src/features/manageSources/ManageSourcesFeature.tsx
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-// Убираем addSourceThunk, updateSourceThunk
-import { fetchSourcesThunk, deleteSourceThunk, clearSourceError } from '@/entities/source/model/sourceSlice';
-import type { RootState, AppDispatch } from '@/app/providers/StoreProvider';
-import type { ISource } from '@/entities/source/model/types'; // Убираем SourceDataPayload
-import { AddEditSourceForm } from './ui/AddEditSourceForm'; // Импортируем форму
-import { SourcesList } from './ui/SourcesList'; // Импортируем список
+import React, { useState } from 'react';
+import type { ISource } from '@/entities/source/model/types';
+import { useSources } from '@/entities/source/hooks/useSources';
+import { AddEditSourceForm } from './ui/AddEditSourceForm';
+import { SourcesList } from './ui/SourcesList';
 import './ManageSourcesFeature.css';
 
 export const ManageSourcesFeature: React.FC = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const { sources, isLoading, error } = useSelector((state: RootState) => state.sources);
+  const { sources, isLoading, isError, error, addSource, updateSource, deleteSource, refreshSource } = useSources();
   const [isAddFormVisible, setIsAddFormVisible] = useState(false);
   const [editingSource, setEditingSource] = useState<ISource | null>(null);
-
-  // Загружаем источники при монтировании компонента
-  useEffect(() => {
-    dispatch(fetchSourcesThunk());
-  }, [dispatch]);
+  const [formError, setFormError] = useState<string | null>(null);
 
   const handleAddClick = () => {
-    setEditingSource(null); // Сбрасываем редактируемый источник
-    setIsAddFormVisible(true); // Показываем форму добавления
-    dispatch(clearSourceError()); // Очищаем предыдущие ошибки
+    setEditingSource(null);
+    setIsAddFormVisible(true);
+    setFormError(null);
   };
 
   const handleEditClick = (source: ISource) => {
-    setEditingSource(source); // Устанавливаем источник для редактирования
-    setIsAddFormVisible(true); // Показываем ту же форму, но для редактирования
-    dispatch(clearSourceError());
+    setEditingSource(source);
+    setIsAddFormVisible(true);
+    setFormError(null);
   };
 
-  const handleDeleteClick = (sourceId: string) => {
+  const handleDeleteClick = async (sourceId: string) => {
     if (window.confirm('Вы уверены, что хотите удалить этот источник?')) {
-      dispatch(deleteSourceThunk(sourceId));
+      try {
+        await deleteSource(sourceId);
+      } catch (e: any) {
+        setFormError(e?.message || 'Ошибка удаления источника');
+      }
     }
   };
 
   const handleFormClose = () => {
     setIsAddFormVisible(false);
     setEditingSource(null);
+    setFormError(null);
   };
 
-  // Убираем handleFormSubmit, т.к. он больше не используется
+  // TODO: После перехода на новую AddSourceModal, передавать addSource/updateSource через пропсы
 
   return (
     <div className="manage-sources-feature">
@@ -51,31 +48,28 @@ export const ManageSourcesFeature: React.FC = () => {
         + Добавить Источник
       </button>
 
-      {/* Форма добавления/редактирования */}
+      {/* Модальное окно добавления/редактирования */}
       {isAddFormVisible && (
         <AddEditSourceForm
-            source={editingSource}
-            onClose={handleFormClose}
-            // onSubmit больше не нужен здесь, т.к. логика внутри формы
+          source={editingSource}
+          onClose={handleFormClose}
+          // TODO: onSubmit, addSource, updateSource
         />
       )}
 
-      {/* Отображение ошибок загрузки списка */}
-      {error && <p className="error-message">{error}</p>}
+      {/* Ошибки */}
+      {(formError || error) && <p className="error-message">{formError || error}</p>}
 
       {/* Список источников */}
       {isLoading && <p>Загрузка источников...</p>}
-      {!isLoading && !error && (
+      {!isLoading && !isError && (
         <SourcesList
           sources={sources}
           onEdit={handleEditClick}
           onDelete={handleDeleteClick}
           onRefresh={async (sourceId: string) => {
             try {
-              const res = await fetch(`/api/sources/${sourceId}/refresh`, { method: 'POST' });
-              if (!res.ok) throw new Error('Ошибка обновления источника');
-              // Можно показать уведомление или обновить только lastFetched, но проще перезагрузить список
-              dispatch(fetchSourcesThunk());
+              await refreshSource(sourceId);
             } catch (e) {
               alert('Не удалось обновить источник. Проверьте соединение или попробуйте позже.');
             }
