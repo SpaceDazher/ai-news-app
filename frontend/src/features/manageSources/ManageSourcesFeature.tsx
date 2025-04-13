@@ -1,64 +1,103 @@
 // src/features/manageSources/ManageSourcesFeature.tsx
-import React, { useState } from 'react';
-import type { ISource } from '@/entities/source/model/types';
-import { useSources } from '@/entities/source/hooks/useSources';
-import { AddEditSourceForm } from './ui/AddEditSourceForm';
-import { SourcesList } from './ui/SourcesList';
-import './ManageSourcesFeature.css';
+import React, { useState } from "react";
+import type { ISource, SourceDataPayload } from "@/entities/source/model/types";
+import { useSources } from "@/entities/source/hooks/useSources";
+import { AddSourceModal } from "./ui/AddSourceModal";
+import { SourcesList } from "./ui/SourcesList";
+import "./ManageSourcesFeature.css";
 
 export const ManageSourcesFeature: React.FC = () => {
-  const { sources, isLoading, isError, error, addSource, updateSource, deleteSource, refreshSource } = useSources();
-  const [isAddFormVisible, setIsAddFormVisible] = useState(false);
+  const {
+    sources,
+    isLoading,
+    isError,
+    error,
+    addSource,
+    updateSource,
+    deleteSource,
+    refreshSource,
+  } = useSources();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingSource, setEditingSource] = useState<ISource | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
 
+  // Открыть модалку для добавления
   const handleAddClick = () => {
     setEditingSource(null);
-    setIsAddFormVisible(true);
+    setIsModalOpen(true);
     setFormError(null);
   };
 
+  // Открыть модалку для редактирования
   const handleEditClick = (source: ISource) => {
     setEditingSource(source);
-    setIsAddFormVisible(true);
+    setIsModalOpen(true);
     setFormError(null);
   };
 
+  // Удаление источника
   const handleDeleteClick = async (sourceId: string) => {
-    if (window.confirm('Вы уверены, что хотите удалить этот источник?')) {
+    if (window.confirm("Вы уверены, что хотите удалить этот источник?")) {
       try {
         await deleteSource(sourceId);
       } catch (e: any) {
-        setFormError(e?.message || 'Ошибка удаления источника');
+        setFormError(e?.message || "Ошибка удаления источника");
       }
     }
   };
 
-  const handleFormClose = () => {
-    setIsAddFormVisible(false);
+  // Добавление/редактирование источника
+  const handleModalSubmit = async (data: SourceDataPayload, id?: string) => {
+    try {
+      if (id) {
+        await updateSource(id, data);
+      } else {
+        await addSource(data);
+      }
+      setIsModalOpen(false);
+      setEditingSource(null);
+      setFormError(null);
+    } catch (e: any) {
+      setFormError(e?.message || "Ошибка сохранения источника");
+    }
+  };
+
+  // Закрытие модалки
+  const handleModalClose = () => {
+    setIsModalOpen(false);
     setEditingSource(null);
     setFormError(null);
   };
 
-  // TODO: После перехода на новую AddSourceModal, передавать addSource/updateSource через пропсы
+  // Переключение автообновления
+  const handleToggleAutoFetch = async (sourceId: string, value: boolean) => {
+    try {
+      await updateSource(sourceId, { autoFetch: value });
+    } catch (e: any) {
+      setFormError(e?.message || "Ошибка обновления автообновления");
+    }
+  };
 
   return (
     <div className="manage-sources-feature">
       <button onClick={handleAddClick} className="add-source-button">
-        + Добавить Источник
+        + Добавить источник
       </button>
 
       {/* Модальное окно добавления/редактирования */}
-      {isAddFormVisible && (
-        <AddEditSourceForm
+      {isModalOpen && (
+        <AddSourceModal
           source={editingSource}
-          onClose={handleFormClose}
-          // TODO: onSubmit, addSource, updateSource
+          onClose={handleModalClose}
+          onSubmit={handleModalSubmit}
         />
       )}
 
       {/* Ошибки */}
-      {(formError || error) && <p className="error-message">{formError || error}</p>}
+      {(formError || error) && (
+        <p className="error-message">{formError || error}</p>
+      )}
 
       {/* Список источников */}
       {isLoading && <p>Загрузка источников...</p>}
@@ -71,9 +110,12 @@ export const ManageSourcesFeature: React.FC = () => {
             try {
               await refreshSource(sourceId);
             } catch (e) {
-              alert('Не удалось обновить источник. Проверьте соединение или попробуйте позже.');
+              alert(
+                "Не удалось обновить источник. Проверьте соединение или попробуйте позже."
+              );
             }
           }}
+          onToggleAutoFetch={handleToggleAutoFetch}
         />
       )}
     </div>

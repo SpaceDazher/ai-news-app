@@ -1,70 +1,172 @@
-/* Sidebar.module.css — светлый сайдбар, иконки, выделение активного */
+/* src/widgets/Sidebar/Sidebar.module.css */
+
+:root {
+  --sidebar-width: 240px;
+  --sidebar-collapsed-width: 64px;
+  --sidebar-bg: #1e1e1e; /* Темный фон как в мокапе */
+  --sidebar-border: #333333;
+  --sidebar-text: #f3f4f6; /* Светлый текст */
+  --sidebar-text-secondary: #9ca3af; /* Серый текст */
+  --sidebar-icon-color: #9ca3af;
+  --sidebar-active-bg: rgba(99, 102, 241, 0.2); /* Фиолетовый фон для активного элемента */
+  --sidebar-active-border: #6366f1; /* Фиолетовая полоска слева */
+  --sidebar-active-text: #6366f1;
+  --sidebar-hover-bg: rgba(255, 255, 255, 0.1);
+  --transition-speed: 0.3s;
+}
 
 .sidebar {
-  background: #f7f8fa;
-  min-width: 210px;
-  max-width: 240px;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding: 28px 0 0 0;
-  border-right: 1.5px solid #e0e0e0;
-  position: fixed;
-  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh; /* Занимает всю высоту */
+  position: sticky; /* Фиксируем при скролле */
   top: 0;
-  z-index: 10;
-}
-
-.sidebar-nav {
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 18px;
+  transition: width var(--transition-speed) ease;
+  overflow-x: hidden; /* Скрываем горизонтальный скролл */
+  flex-shrink: 0; /* Предотвращаем сжатие */
 }
 
-.sidebar-link {
+.sidebar.collapsed {
+  width: var(--sidebar-collapsed-width);
+}
+
+.sidebarHeader {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 28px;
-  color: #23272f;
-  font-size: 1.08rem;
-  font-weight: 500;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: background 0.15s, color 0.15s;
+  justify-content: space-between;
+  padding: 1rem; /* Отступы */
+  height: 64px; /* Фиксированная высота как у Header */
+  border-bottom: 1px solid var(--sidebar-border);
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--sidebar-text);
+  white-space: nowrap; /* Предотвращаем перенос текста */
+}
+
+.toggleButton {
+  background: none;
+  border: none;
+  color: var(--sidebar-icon-color);
   cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color var(--transition-speed);
 }
 
-.sidebar-link.active,
-.sidebar-link:hover {
-  background: #e6f0ff;
-  color: #4f8cff;
+.toggleButton:hover {
+  background-color: var(--sidebar-hover-bg);
 }
 
-.sidebar-icon {
-  font-size: 1.3rem;
-  width: 22px;
-  height: 22px;
+.nav {
+  flex-grow: 1; /* Занимает оставшееся пространство */
+  overflow-y: auto; /* Добавляем скролл при необходимости */
+  padding-top: 1rem;
+}
+
+.nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.link {
   display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem; /* Отступы внутри ссылки */
+  color: var(--sidebar-text-secondary);
+  text-decoration: none;
+  border-radius: 4px;
+  margin: 0.25rem 0.5rem; /* Отступы вокруг ссылки */
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+  white-space: nowrap; /* Предотвращаем перенос текста */
+  position: relative; /* Для active бордера */
+  border-left: 3px solid transparent; /* Место для активного бордера */
+}
+
+.link:hover {
+  background-color: var(--sidebar-hover-bg);
+  color: var(--sidebar-text);
+}
+
+.link.active {
+  background-color: var(--sidebar-active-bg);
+  color: var(--sidebar-active-text);
+  font-weight: 500;
+  border-left-color: var(--sidebar-active-border);
+}
+
+.link.active .icon svg,
+.link:hover .icon svg {
+  color: var(--sidebar-active-text); /* Цвет иконки при hover/active */
+}
+
+.icon {
+  display: inline-flex; /* Для выравнивания иконки */
   align-items: center;
   justify-content: center;
+  min-width: 24px; /* Минимальная ширина для иконки */
+  margin-right: 0.75rem; /* Отступ справа от иконки */
+  transition: color var(--transition-speed);
 }
 
-@media (max-width: 900px) {
+.sidebar.collapsed .icon {
+  margin-right: 0; /* Убираем отступ в свёрнутом виде */
+}
+
+.sidebar.collapsed .link {
+  justify-content: center; /* Центрируем иконку */
+  padding: 0.75rem;
+  margin: 0.25rem auto; /* Центрируем ссылку */
+  width: calc(var(--sidebar-collapsed-width) - 1rem); /* Ширина ссылки */
+}
+
+.text {
+  opacity: 1;
+  transition: opacity var(--transition-speed) ease;
+}
+
+.sidebar.collapsed .text {
+  opacity: 0;
+  position: absolute; /* Скрываем текст, но оставляем для aria */
+  pointer-events: none;
+}
+
+.sidebarFooter {
+  padding: 1rem 0.5rem;
+  border-top: 1px solid var(--sidebar-border);
+  flex-shrink: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
   .sidebar {
-    min-width: 60px;
-    max-width: 60px;
-    padding: 18px 0 0 0;
+    /* Можно сделать скрытым по умолчанию на мобильных */
+    position: fixed;
+    left: -100%; /* Скрываем за экраном */
+    z-index: 100;
+    transition: left var(--transition-speed) ease;
   }
-  .sidebar-link {
-    padding: 10px 10px;
-    justify-content: center;
-    font-size: 0;
+
+  .sidebar.open { /* Класс для открытия на мобильных */
+    left: 0;
   }
-  .sidebar-link .sidebar-icon {
-    font-size: 1.2rem;
-    width: 22px;
-    height: 22px;
+
+  .sidebar.collapsed {
+    /* На мобильных свёрнутый режим может быть не нужен, или выглядеть иначе */
+    width: var(--sidebar-width); /* Возвращаем ширину */
+    left: -100%;
   }
+
+  .sidebar.collapsed.open {
+    left: 0;
+  }
+
+  /* Можно добавить кнопку-бургер для открытия/закрытия */
 }

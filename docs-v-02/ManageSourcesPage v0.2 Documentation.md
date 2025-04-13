@@ -1310,3 +1310,763 @@ Suggest relevant sources based on user interests and existing source patterns.
 AI News Doks © 2025 | ManageSourcesPage Documentation v0.2
 
 Last Updated: April 2025
+
+----
+### Исходный код прототипа
+ 
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Analytics - Manage Sources</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #14b8a6;
+            --bg-dark: #121212;
+            --bg-sidebar: #1e1e1e;
+            --bg-card: #252525;
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --border-color: #333333;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #777;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .sidebar-icon {
+            transition: all 0.2s;
+        }
+        
+        .sidebar-icon:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-icon.active {
+            background-color: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+            border-left: 2px solid var(--primary);
+        }
+
+        /* Card styles */
+        .source-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .source-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Badge styles */
+        .source-badge {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 9999px;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+        
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: -30px;
+            background-color: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        /* Animation for cards */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animated-card {
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+
+        /* Particle background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Glow effects */
+        .glow-effect {
+            position: relative;
+        }
+        
+        .glow-effect::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            z-index: -1;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .glow-effect:hover::after {
+            opacity: 0.5;
+            filter: blur(15px);
+        }
+
+        /* Status indicators */
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .status-active {
+            background-color: #10b981;
+            box-shadow: 0 0 8px #10b981;
+        }
+        
+        .status-inactive {
+            background-color: #ef4444;
+            box-shadow: 0 0 8px #ef4444;
+        }
+        
+        .status-warning {
+            background-color: #f59e0b;
+            box-shadow: 0 0 8px #f59e0b;
+        }
+
+        /* Glass effect */
+        .glass-effect {
+            background: rgba(37, 37, 37, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Fancy switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #484848;
+            transition: .4s;
+            border-radius: 20px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Search bar */
+        .search-container {
+            position: relative;
+        }
+        
+        .search-container input {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding-left: 2.5rem;
+            transition: all 0.3s;
+        }
+        
+        .search-container input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body class="flex flex-col">
+    <!-- Header -->
+    <header class="glass-effect sticky top-0 z-10 flex items-center justify-between p-4 border-b border-gray-700">
+        <div class="flex items-center">
+            <div class="mr-4 text-xl font-bold text-white">
+                <span class="text-indigo-500">AI</span> News Doks
+            </div>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="Search sources..." class="py-1.5 px-3 rounded-lg w-64 focus:outline-none" />
+            </div>
+            <div class="flex items-center space-x-2">
+                <div class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center text-white">
+                    <span class="text-sm font-semibold">TS</span>
+                </div>
+                <span>test@gmail.com</span>
+                <button class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm transition">
+                    Выйти
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-1">
+        <!-- Sidebar -->
+        <aside class="sidebar w-16 md:w-20 flex flex-col items-center py-6 h-screen sticky top-0">
+            <div class="flex flex-col items-center space-y-4 w-full">
+                <a href="#" class="sidebar-icon active p-3 rounded-lg w-12 h-12 flex items-center justify-center" data-tooltip="Dashboard">
+                    <i class="fas fa-home text-xl"></i>
+                </a>
+                <a href="#" class="sidebar-icon p-3 rounded-lg w-12 h-12 flex items-center justify-center" data-tooltip="Sources">
+                    <i class="fas fa-rss text-xl"></i>
+                </a>
+                <a href="#" class="sidebar-icon p-3 rounded-lg w-12 h-12 flex items-center justify-center" data-tooltip="Data">
+                    <i class="fas fa-database text-xl"></i>
+                </a>
+                <a href="#" class="sidebar-icon p-3 rounded-lg w-12 h-12 flex items-center justify-center" data-tooltip="Topics">
+                    <i class="fas fa-tag text-xl"></i>
+                </a>
+                <a href="#" class="sidebar-icon p-3 rounded-lg w-12 h-12 flex items-center justify-center" data-tooltip="Settings">
+                    <i class="fas fa-cog text-xl"></i>
+                </a>
+            </div>
+            <div class="mt-auto">
+                <a href="#" class="sidebar-icon p-3 rounded-lg w-12 h-12 flex items-center justify-center" data-tooltip="Help">
+                    <i class="fas fa-question-circle text-xl"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <div class="max-w-7xl mx-auto">
+                <!-- Page Title and Add Button -->
+                <div class="flex justify-between items-center mb-8">
+                    <h1 class="text-3xl font-bold">Управление Источниками</h1>
+                    <button class="btn-primary flex items-center space-x-2 px-4 py-2 rounded-lg font-medium">
+                        <i class="fas fa-plus"></i>
+                        <span>Добавить Источник</span>
+                    </button>
+                </div>
+
+                <!-- Tabs and Filters -->
+                <div class="flex flex-wrap justify-between items-center mb-6 glass-effect p-3 rounded-lg">
+                    <div class="flex space-x-4">
+                        <button class="px-4 py-1.5 rounded-md bg-indigo-600 text-white font-medium">All Sources (12)</button>
+                        <button class="px-4 py-1.5 rounded-md hover:bg-gray-700 transition">Active (8)</button>
+                        <button class="px-4 py-1.5 rounded-md hover:bg-gray-700 transition">Inactive (4)</button>
+                    </div>
+                    <div class="flex space-x-4 items-center">
+                        <span>Сортировать по:</span>
+                        <select class="bg-gray-800 border border-gray-700 rounded-md px-2 py-1">
+                            <option>Дате добавления</option>
+                            <option>Статусу</option>
+                            <option>Алфавиту</option>
+                            <option>Категории</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Status message -->
+                <div class="bg-red-900/30 border border-red-500/50 text-red-200 px-4 py-3 rounded-md mb-6 flex items-center">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    <span>Failed to fetch some sources. Check your network connection or try again later.</span>
+                </div>
+
+                <!-- Sources Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Source Card 1 -->
+                    <div class="source-card p-4 animated-card glow-effect" style="animation-delay: 0.1s;">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-blue-600 rounded-md flex items-center justify-center mr-3">
+                                    <i class="fab fa-telegram-plane text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">Tech News Channel</h3>
+                                    <div class="flex items-center">
+                                        <div class="status-indicator status-active mr-2"></div>
+                                        <span class="text-xs text-gray-400">Active</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <button class="text-gray-400 hover:text-white p-1">
+                                    <i class="fas fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-red-500 p-1">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3 text-gray-400 text-sm">
+                            <p>Telegram channel with latest tech news and updates. Covers AI, blockchain and mobile tech.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="source-badge bg-blue-900 text-blue-300">Telegram</span>
+                            <span class="source-badge bg-purple-900 text-purple-300">Tech</span>
+                            <span class="source-badge bg-green-900 text-green-300">AI</span>
+                        </div>
+                        <div class="border-t border-gray-700 pt-3 flex justify-between items-center">
+                            <div class="text-xs text-gray-400">
+                                <span>Updated: 15 minutes ago</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-xs mr-2">Auto-fetch</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Source Card 2 -->
+                    <div class="source-card p-4 animated-card glow-effect" style="animation-delay: 0.2s;">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-gray-600 rounded-md flex items-center justify-center mr-3">
+                                    <i class="fas fa-globe text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">TechCrunch</h3>
+                                    <div class="flex items-center">
+                                        <div class="status-indicator status-active mr-2"></div>
+                                        <span class="text-xs text-gray-400">Active</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <button class="text-gray-400 hover:text-white p-1">
+                                    <i class="fas fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-red-500 p-1">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3 text-gray-400 text-sm">
+                            <p>Website with news about technology startups, venture capital funding, and Silicon Valley.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="source-badge bg-gray-800 text-gray-300">Website</span>
+                            <span class="source-badge bg-yellow-900 text-yellow-300">Startups</span>
+                            <span class="source-badge bg-blue-900 text-blue-300">Business</span>
+                        </div>
+                        <div class="border-t border-gray-700 pt-3 flex justify-between items-center">
+                            <div class="text-xs text-gray-400">
+                                <span>Updated: 2 hours ago</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-xs mr-2">Auto-fetch</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Source Card 3 -->
+                    <div class="source-card p-4 animated-card glow-effect" style="animation-delay: 0.3s;">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-green-600 rounded-md flex items-center justify-center mr-3">
+                                    <i class="fas fa-code text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">GitHub API Feed</h3>
+                                    <div class="flex items-center">
+                                        <div class="status-indicator status-warning mr-2"></div>
+                                        <span class="text-xs text-gray-400">Warning</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <button class="text-gray-400 hover:text-white p-1">
+                                    <i class="fas fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-red-500 p-1">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3 text-gray-400 text-sm">
+                            <p>API connection to GitHub trending repositories and developer activities.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="source-badge bg-green-900 text-green-300">API</span>
+                            <span class="source-badge bg-indigo-900 text-indigo-300">Code</span>
+                            <span class="source-badge bg-red-900 text-red-300">Rate Limited</span>
+                        </div>
+                        <div class="border-t border-gray-700 pt-3 flex justify-between items-center">
+                            <div class="text-xs text-gray-400">
+                                <span>Updated: 5 hours ago</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-xs mr-2">Auto-fetch</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Source Card 4 -->
+                    <div class="source-card p-4 animated-card glow-effect" style="animation-delay: 0.4s;">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-red-600 rounded-md flex items-center justify-center mr-3">
+                                    <i class="fab fa-youtube text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">Tech YouTube Channel</h3>
+                                    <div class="flex items-center">
+                                        <div class="status-indicator status-inactive mr-2"></div>
+                                        <span class="text-xs text-gray-400">Inactive</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <button class="text-gray-400 hover:text-white p-1">
+                                    <i class="fas fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-red-500 p-1">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3 text-gray-400 text-sm">
+                            <p>YouTube channel with tech reviews, tutorials and industry news.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="source-badge bg-red-900 text-red-300">YouTube</span>
+                            <span class="source-badge bg-blue-900 text-blue-300">Video</span>
+                            <span class="source-badge bg-purple-900 text-purple-300">Reviews</span>
+                        </div>
+                        <div class="border-t border-gray-700 pt-3 flex justify-between items-center">
+                            <div class="text-xs text-gray-400">
+                                <span>Updated: 2 days ago</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-xs mr-2">Auto-fetch</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Source Card 5 -->
+                    <div class="source-card p-4 animated-card glow-effect" style="animation-delay: 0.5s;">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-blue-600 rounded-md flex items-center justify-center mr-3">
+                                    <i class="fab fa-twitter text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">AI News Twitter Feed</h3>
+                                    <div class="flex items-center">
+                                        <div class="status-indicator status-active mr-2"></div>
+                                        <span class="text-xs text-gray-400">Active</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <button class="text-gray-400 hover:text-white p-1">
+                                    <i class="fas fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-red-500 p-1">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3 text-gray-400 text-sm">
+                            <p>Twitter feed aggregating posts with AI news and research updates from key accounts.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="source-badge bg-blue-900 text-blue-300">Twitter</span>
+                            <span class="source-badge bg-purple-900 text-purple-300">AI</span>
+                            <span class="source-badge bg-indigo-900 text-indigo-300">Research</span>
+                        </div>
+                        <div class="border-t border-gray-700 pt-3 flex justify-between items-center">
+                            <div class="text-xs text-gray-400">
+                                <span>Updated: 3 hours ago</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-xs mr-2">Auto-fetch</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Source Card 6 -->
+                    <div class="source-card p-4 animated-card glow-effect" style="animation-delay: 0.6s;">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 bg-orange-600 rounded-md flex items-center justify-center mr-3">
+                                    <i class="fas fa-rss text-white text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold">Tech Industry RSS</h3>
+                                    <div class="flex items-center">
+                                        <div class="status-indicator status-active mr-2"></div>
+                                        <span class="text-xs text-gray-400">Active</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <button class="text-gray-400 hover:text-white p-1">
+                                    <i class="fas fa-pen-to-square"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-red-500 p-1">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3 text-gray-400 text-sm">
+                            <p>RSS feed aggregating news from multiple tech industry publications.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="source-badge bg-orange-900 text-orange-300">RSS</span>
+                            <span class="source-badge bg-blue-900 text-blue-300">Tech</span>
+                            <span class="source-badge bg-teal-900 text-teal-300">Multiple</span>
+                        </div>
+                        <div class="border-t border-gray-700 pt-3 flex justify-between items-center">
+                            <div class="text-xs text-gray-400">
+                                <span>Updated: Just now</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-xs mr-2">Auto-fetch</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Source Form (initially hidden) -->
+                <div id="add-source-form" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+                    <div class="bg-gray-800 rounded-lg p-6 max-w-lg w-full">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold">Add New Source</h2>
+                            <button class="text-gray-400 hover:text-white" onclick="toggleAddSourceForm()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <form>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">Source Name</label>
+                                <input type="text" class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:border-indigo-500" placeholder="Enter source name">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">Source Type</label>
+                                <select class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:border-indigo-500">
+                                    <option>Website</option>
+                                    <option>Telegram</option>
+                                    <option>API</option>
+                                    <option>RSS</option>
+                                    <option>Twitter</option>
+                                    <option>YouTube</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">URL / API Endpoint</label>
+                                <input type="text" class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:border-indigo-500" placeholder="https://">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">Description</label>
+                                <textarea class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:border-indigo-500" rows="3" placeholder="Brief description of this source"></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium mb-1">Categories (comma separated)</label>
+                                <input type="text" class="w-full bg-gray-700 border border-gray-600 rounded-md px-3 py-2 focus:outline-none focus:border-indigo-500" placeholder="Tech, AI, Business">
+                            </div>
+                            <div class="mb-4 flex items-center">
+                                <input type="checkbox" id="auto-fetch" class="mr-2">
+                                <label for="auto-fetch">Enable auto-fetch</label>
+                            </div>
+                            <div class="flex justify-end space-x-3">
+                                <button type="button" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-md" onclick="toggleAddSourceForm()">Cancel</button>
+                                <button type="button" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-md">Add Source</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="mt-8 flex justify-center">
+                    <div class="flex space-x-1">
+                        <button class="px-3 py-1 rounded-md bg-gray-800 hover:bg-gray-700">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="px-3 py-1 rounded-md bg-indigo-600 text-white">1</button>
+                        <button class="px-3 py-1 rounded-md bg-gray-800 hover:bg-gray-700">2</button>
+                        <button class="px-3 py-1 rounded-md bg-gray-800 hover:bg-gray-700">3</button>
+                        <button class="px-3 py-1 rounded-md bg-gray-800 hover:bg-gray-700">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="glass-effect border-t border-gray-700 py-4 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="text-gray-400 text-sm mb-3 md:mb-0">
+                &copy; 2025 AI News Analytics Platform. Version 0.2
+            </div>
+            <div class="flex space-x-4">
+                <a href="#" class="text-gray-400 hover:text-white text-sm">Documentation</a>
+                <a href="#" class="text-gray-400 hover:text-white text-sm">API</a>
+                <a href="#" class="text-gray-400 hover:text-white text-sm">Terms of Service</a>
+                <a href="#" class="text-gray-400 hover:text-white text-sm">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        // Toggle Add Source Form
+        function toggleAddSourceForm() {
+            const form = document.getElementById('add-source-form');
+            if (form.classList.contains('hidden')) {
+                form.classList.remove('hidden');
+            } else {
+                form.classList.add('hidden');
+            }
+        }
+
+        // Add click event to "Add Source" button
+        document.addEventListener('DOMContentLoaded', function() {
+            const addButton = document.querySelector('.btn-primary');
+            addButton.addEventListener('click', toggleAddSourceForm);
+        });
+
+        // Sidebar active state toggle
+        document.querySelectorAll('.sidebar-icon').forEach(icon => {
+            icon.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.sidebar-icon').forEach(i => {
+                    i.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
+
+```

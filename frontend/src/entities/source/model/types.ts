@@ -20,7 +20,7 @@ export interface ISource {
 
   // Новые поля для расширенного UI и API v0.2
   description?: string; // Описание источника (добавлено для v0.2)
-  status?: 'active' | 'inactive' | 'error'; // Статус источника
+  status?: 'active' | 'inactive' | 'error' | 'warning'; // Статус источника
   category?: string; // Категория (например, "Технологии")
   lastFetched?: string; // Дата последнего обновления (ISO)
   updateFrequency?: number; // Частота обновления в минутах

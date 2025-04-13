@@ -10,6 +10,7 @@ interface SourcesListProps {
   onEdit: (source: ISource) => void;
   onDelete: (sourceId: string) => void;
   onRefresh?: (sourceId: string) => void;
+  onToggleAutoFetch?: (sourceId: string, value: boolean) => void;
 }
 
 const PAGE_SIZE = 8;
@@ -26,6 +27,7 @@ export const SourcesList: React.FC<SourcesListProps> = ({
   onEdit,
   onDelete,
   onRefresh,
+  onToggleAutoFetch,
 }) => {
   const [tab, setTab] = useState<'all' | 'active' | 'inactive' | 'error'>('all');
   const [search, setSearch] = useState('');
@@ -181,6 +183,7 @@ export const SourcesList: React.FC<SourcesListProps> = ({
                 onEdit={onEdit}
                 onDelete={onDelete}
                 onRefresh={onRefresh}
+                // Можно добавить onToggleAutoFetch если SourceListItem поддерживает
               />
             ) : (
               <li key={source._id} className="source-grid-item">
@@ -189,6 +192,7 @@ export const SourcesList: React.FC<SourcesListProps> = ({
                   onEdit={onEdit}
                   onDelete={onDelete}
                   onRefresh={onRefresh}
+                  onToggleAutoFetch={onToggleAutoFetch}
                 />
               </li>
             )

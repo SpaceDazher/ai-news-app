@@ -1,87 +1,134 @@
-/* Header.module.css — тёмный хедер, логотип, email, кнопка "Выйти" */
+/* src/widgets/Header/Header.module.css */
 
-.app-header {
-  width: 100vw;
-  min-height: 48px;
-  background: #23272f;
-  color: #fff;
+:root {
+  --header-height: 64px;
+  --header-bg: rgba(30, 30, 30, 0.7); /* Полупрозрачный темный фон */
+  --header-border: #333333;
+  --header-text: #f3f4f6;
+  --header-text-secondary: #9ca3af;
+  --header-icon-color: #9ca3af;
+  --header-hover-bg: rgba(255, 255, 255, 0.1);
+  --input-bg: #252525; /* Фон для инпутов */
+  --input-border: #444444;
+  --input-focus-border: #6366f1; /* Фиолетовый при фокусе */
+  --transition-speed: 0.3s;
+}
+
+.header {
+  height: var(--header-height);
+  background: var(--header-bg);
+  backdrop-filter: blur(10px); /* Glass-эффект */
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--header-border);
+  position: sticky; /* Фиксируем при скролле */
+  top: 0;
+  z-index: 50; /* Ниже, чем у Sidebar на мобильных */
+  width: 100%;
+}
+
+.container {
+  max-width: 100%; /* Занимает всю ширину */
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px 0 0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 20;
-  box-shadow: 0 2px 8px 0 rgba(44,62,80,0.08);
+  padding: 0 1.5rem; /* Отступы по бокам */
 }
 
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  height: 48px;
-  padding-left: 250px; /* ширина сайдбара */
-}
-
-.logo {
-  font-size: 1.45rem;
-  font-weight: 800;
-  color: #4f8cff;
-  letter-spacing: -1px;
-  margin-right: 18px;
-  text-decoration: none;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.user-email {
-  color: #fff;
-  font-size: 1.05rem;
-  font-weight: 500;
-  margin-right: 8px;
-}
-
-.logout-btn {
-  background: #eb5757;
-  color: #fff;
-  border: none;
-  border-radius: 7px;
-  padding: 7px 18px;
-  font-size: 1rem;
+.pageTitle {
+  font-size: 1.25rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-.logout-btn:hover {
-  background: #c0392b;
+  color: var(--header-text);
+  margin-left: 1rem; /* Отступ от края или Sidebar */
 }
 
-@media (max-width: 900px) {
-  .header-left {
-    padding-left: 70px;
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* Расстояние между контролами */
+}
+
+.searchContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  color: var(--header-text-secondary);
+  pointer-events: none; /* Иконка не мешает клику на инпут */
+}
+
+.searchInput {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--header-text);
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem 0.4rem 2.25rem; /* Отступ слева для иконки */
+  font-size: 0.9rem;
+  transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+  width: 200px; /* Начальная ширина */
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2); /* Glow при фокусе */
+  width: 250px; /* Расширяем при фокусе */
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  color: var(--header-icon-color);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%; /* Круглые кнопки */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+.iconButton:hover {
+  background-color: var(--header-hover-bg);
+  color: var(--header-text);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
   }
-  .app-header {
-    padding: 0 8px 0 0;
+
+  .pageTitle {
+    font-size: 1.1rem;
+    margin-left: 0.5rem;
+  }
+
+  .searchInput {
+    width: 150px; /* Уменьшаем поиск */
+  }
+  .searchInput:focus {
+    width: 180px;
+  }
+
+  .headerControls {
+    gap: 0.5rem;
   }
 }
-@media (max-width: 600px) {
-  .header-left {
-    padding-left: 10px;
+
+@media (max-width: 480px) {
+  .pageTitle {
+    display: none; /* Скрываем заголовок на очень маленьких экранах */
   }
-  .logo {
-    font-size: 1.1rem;
-    margin-right: 8px;
+
+  .searchInput {
+    width: 100px;
   }
-  .user-email {
-    font-size: 0.95rem;
-  }
-  .logout-btn {
-    font-size: 0.95rem;
-    padding: 6px 10px;
+  .searchInput:focus {
+    width: 130px;
   }
 }

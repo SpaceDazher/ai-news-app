@@ -1,151 +1,275 @@
-/* SourceContainer.module.css — стили для карточки источника в режиме сетки */
+/* src/features/manageSources/ui/SourceContainer.module.css */
+
+:root {
+  --card-bg: #252525; /* Темный фон карточки */
+  --card-border: #333333;
+  --card-text: #f3f4f6;
+  --card-text-secondary: #9ca3af;
+  --card-hover-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  --card-glow-primary: #6366f1;
+  --card-glow-secondary: #14b8a6;
+  --badge-bg-default: #444;
+  --badge-text-default: #ccc;
+  --status-active-color: #10b981;
+  --status-inactive-color: #ef4444;
+  --status-error-color: #ef4444;
+  --status-warning-color: #f59e0b;
+  --toggle-bg-off: #484848;
+  --toggle-bg-on: var(--card-glow-primary);
+  --transition-speed: 0.3s;
+}
 
 .sourceContainer {
-  background: #23272f;
-  border-radius: 14px;
-  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.10);
-  padding: 18px 20px 14px 20px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem; /* Увеличил паддинги */
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  transition: box-shadow 0.2s, transform 0.2s;
-  height: 100%;
-  min-width: 0;
+  gap: 0.75rem; /* Расстояние между блоками */
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative; /* Для glow */
+  overflow: hidden; /* Чтобы glow не вылезал */
 }
 
 .sourceContainer:hover {
-  box-shadow: 0 4px 24px 0 rgba(80,120,255,0.18);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+/* Анимация появления */
+.animatedCard {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Glow эффект */
+.glowEffect::after {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  z-index: -1;
+  background: linear-gradient(45deg, var(--card-glow-primary), var(--card-glow-secondary));
+  border-radius: 10px; /* Чуть больше радиуса карточки */
+  opacity: 0;
+  transition: opacity var(--transition-speed);
+  filter: blur(15px);
+}
+
+.sourceContainer:hover .glowEffect::after {
+  opacity: 0.3; /* Менее яркий glow */
 }
 
 .sourceHeader {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 6px;
+  gap: 0.75rem;
 }
 
 .sourceTypeIcon {
-  width: 28px;
-  height: 28px;
+  width: 32px; /* Размер иконки типа */
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #181b22;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px 0 rgba(80,120,255,0.10);
-  flex-shrink: 0;
+  border-radius: 4px;
+  /* Можно добавить фон в зависимости от типа */
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .sourceName {
-  font-size: 17px;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--card-text);
+  flex-grow: 1; /* Занимает доступное место */
   margin: 0;
-  flex-grow: 1;
-  word-break: break-word;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .sourceStatus {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #bdbdbd;
-  flex-shrink: 0;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--card-text-secondary);
+  white-space: nowrap;
 }
+
+.sourceStatus svg { /* Стили для иконки статуса */
+  width: 12px;
+  height: 12px;
+}
+/* Цвета для статусов можно задать через переменные или классы */
+.sourceStatus[data-status="active"] span { color: var(--status-active-color); }
+.sourceStatus[data-status="inactive"] span { color: var(--status-inactive-color); }
+.sourceStatus[data-status="error"] span { color: var(--status-error-color); }
+.sourceStatus[data-status="warning"] span { color: var(--status-warning-color); }
+
 
 .sourceBody {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  flex-grow: 1;
+  gap: 0.6rem; /* Расстояние между элементами тела */
+  font-size: 0.875rem;
+  color: var(--card-text-secondary);
 }
 
-.sourceUrl {
-  margin: 0;
-  word-break: break-all;
-  font-size: 14px;
+.sourceDescription {
+  font-style: italic;
 }
 
 .sourceUrl a {
-  color: #4f8cff;
+  color: var(--card-text-secondary);
   text-decoration: none;
+  word-break: break-all; /* Перенос длинных URL */
+  transition: color var(--transition-speed);
 }
 
 .sourceUrl a:hover {
+  color: var(--card-glow-primary);
   text-decoration: underline;
 }
 
-.sourceCategory {
-  background: #2d3140;
-  color: #8ecfff;
-  font-size: 13px;
-  padding: 2px 10px;
-  border-radius: 8px;
-  font-weight: 500;
-  align-self: flex-start;
-  margin-top: auto;
+.sourceCategory,
+.sourceTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
 
-.sourceMeta {
-  display: flex;
-  gap: 18px;
-  font-size: 13px;
-  color: #bdbdbd;
-  margin-top: 2px;
-  flex-wrap: wrap;
+.sourceBadge { /* Общий стиль для бейджей */
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  background-color: var(--badge-bg-default);
+  color: var(--badge-text-default);
+  white-space: nowrap;
 }
+/* Можно добавить стили для разных типов бейджей (категория, теги) */
+.sourceCategory .sourceBadge { background-color: rgba(99, 102, 241, 0.3); color: #a5b4fc; }
+.sourceTags .sourceBadge { background-color: rgba(20, 184, 166, 0.3); color: #6ee7b7; }
+
+
+.sourceMetaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--card-text-secondary);
+  opacity: 0.8;
+}
+
+.lastFetched,
+.updateFrequency {
+  white-space: nowrap;
+}
+
+.autoFetchRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--card-border);
+}
+
+.autoFetchLabel {
+  font-size: 0.8rem;
+  color: var(--card-text-secondary);
+}
+
+/* Стили для Toggle Switch */
+.toggleSwitch {
+  position: relative;
+  display: inline-block;
+  width: 36px; /* Уменьшил размер */
+  height: 18px;
+}
+
+.toggleSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--toggle-bg-off);
+  transition: .4s;
+  border-radius: 18px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px; /* Уменьшил размер */
+  width: 14px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+.toggleSwitch input:checked + .slider {
+  background-color: var(--toggle-bg-on);
+}
+
+.toggleSwitch input:focus + .slider {
+   box-shadow: 0 0 1px var(--toggle-bg-on);
+}
+
+.toggleSwitch input:checked + .slider:before {
+  transform: translateX(18px); /* Сдвиг для уменьшенного размера */
+}
+
+.toggleSwitch input:disabled + .slider {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 
 .sourceActions {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
-  justify-content: flex-end;
+  justify-content: flex-end; /* Кнопки справа */
+  gap: 0.5rem;
+  margin-top: auto; /* Прижимаем к низу, если карточка растягивается */
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--card-border);
 }
 
 .actionButton {
-  background: transparent;
+  background: none;
   border: none;
+  color: var(--card-text-secondary);
   cursor: pointer;
-  padding: 5px;
-  border-radius: 5px;
+  padding: 0.4rem;
+  border-radius: 4px;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
 }
 
 .actionButton:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background-color: var(--header-hover-bg); /* Используем цвет из хедера */
+  color: var(--card-text);
 }
 
-.editButton {
-  color: #4F8CFF;
-}
-
-.deleteButton {
-  color: #EB5757;
-}
-
-.refreshButton {
-  color: #00B894;
-}
-
-/* Адаптивность */
-@media (max-width: 600px) {
-  .sourceContainer {
-    padding: 14px 16px 12px 16px;
-  }
-  
-  .sourceName {
-    font-size: 16px;
-  }
-  
-  .sourceUrl {
-    font-size: 13px;
-  }
-}
+.editButton:hover { color: var(--card-glow-primary); }
+.refreshButton:hover { color: var(--status-active-color); }
+.deleteButton:hover { color: var(--status-inactive-color); }
