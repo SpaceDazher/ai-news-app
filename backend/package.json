@@ -11,15 +11,20 @@
   "dependencies": {
     "@langchain/google-genai": "^0.2.1",
     "@langchain/openai": "^0.5.2",
+    "axios": "^1.8.4",
     "bcrypt": "^5.1.1",
+    "cheerio": "^1.0.0",
     "jose": "^6.0.10",
     "jsonwebtoken": "^9.0.2",
     "langchain": "^0.3.19",
     "mongoose": "^8.13.1",
     "next": "15.2.4",
+    "puppeteer": "^24.6.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "rss-parser": "^3.13.0",
     "socket.io": "^4.8.1",
+    "telegram": "^2.26.22",
     "zod": "^3.24.2"
   },
   "devDependencies": {
@@ -30,6 +35,6 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "ts-node": "^10.9.2",
-    "typescript": "^5"
+    "typescript": "^5.8.3"
   }
 }

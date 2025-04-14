@@ -13,6 +13,8 @@ import {
   TrashIcon,
   RefreshIcon,
 } from "@/shared/icons/CustomIcons";
+import { CollectNowButton } from "./CollectNowButton";
+import { SourceCollectionStatus } from "./SourceCollectionStatus";
 import styles from "./SourceContainer.module.css";
 
 // TODO: добавить StatusWarningIcon в CustomIcons
@@ -207,6 +209,11 @@ const SourceContainer: React.FC<SourceContainerProps> = ({
         >
           <TrashIcon size={20} />
         </button>
+      </div>
+      {/* Кнопка ручного сбора и история сборов */}
+      <div className={styles.collectionControls}>
+        <CollectNowButton sourceId={source._id} />
+        <SourceCollectionStatus sourceId={source._id} />
       </div>
     </div>
   );

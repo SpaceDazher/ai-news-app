@@ -10,6 +10,8 @@ export interface ISource extends Document {
   type: SourceType; // Тип источника
   url?: string; // URL для website или API
   identifier?: string; // Идентификатор для Telegram (@username или ссылка)
+  config?: Record<string, unknown>; // Конфиг для стратегий (headers, selectors и т.д.)
+  lastFetchedAt?: Date; // Дата последнего сбора данных
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,6 +24,10 @@ const SourceSchema: Schema<ISource> = new Schema(
       ref: 'User', // Ссылка на модель User
       required: true,
       index: true, // Индекс для быстрого поиска по пользователю
+    },
+    lastFetchedAt: {
+      type: Date,
+      default: null,
     },
     name: {
       type: String,
